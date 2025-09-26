@@ -26,4 +26,4 @@ echo "TIMING - Starting jupyter at: $(date)"
 
 # Launch the Jupyter Notebook Server
 set -x
-apptainer exec jupyter_min_20250922.sif jupyter lab --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+apptainer exec ${CONTAINER} jupyter lab --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
