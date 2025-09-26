@@ -8,7 +8,7 @@
 # under /etc/ood/config/clusters.d/*.yml
 # @example Use the Owens cluster at Ohio Supercomputer Center
 #     cluster: "owens"
-cluster: ""
+cluster: "winter2"
 
 # Define attribute values that aren't meant to be modified by the user within
 # the Dashboard form
@@ -26,6 +26,49 @@ attributes:
   # @example Using combination of modules
   #     modules: "python/3.5 cuda/8.0.44"
   modules: "apptainer"
+  auto_queues:
+    label: "Partition"
+  custom_qos:
+    label: "QOS"
+    widget: select
+    options:
+      - ['batch', data-exclusive-option-for-queue-compute: true]
+      - ['test', data-exclusive-option-for-queue-rit-test: true]
+  bc_num_hours:
+    label: "Number of hours"
+    required: true
+    widget: "number_field"
+    value: 1
+    min: 1
+    max: 8
+    step: 1
+    id: 'bc_num_hours'
+  num_cores:
+    widget: "number_field"
+    label: "Number of cores"
+    value: 1
+    help: |
+      Currently, we limit the maximum number of cores for a Jupyter job to 16.
+    min: 1
+    max: 16
+    step: 1
+  bc_num_hours:
+    label: "Number of hours"
+    value: 1
+    min: 1
+    max: 8
+    step: 1
+    help: "The interactive Jupyter server is intended for a work day's amount of time."
+  memtask:
+    widget: select
+    label: "Memory (in GB)"
+    options:
+      - ["8GB"]
+      - ["16GB"]
+      - ["24GB"]
+      - ["32GB"]
+      - ["40GB"]
+      - ["48GB"]  
 
   # Any extra command line arguments to feed to the `jupyter notebook ...`
   # command that launches the Jupyter notebook within the batch job
@@ -43,8 +86,10 @@ attributes:
 form:
   - modules
   - extra_jupyter_args
-  - bc_account
-  - bc_queue
+  - auto_queues
+  - custom_qos
+  - num_cores
   - bc_num_hours
-  - bc_num_slots
+  - bc_num_tasks
   - bc_email_on_started
+  - memtask
